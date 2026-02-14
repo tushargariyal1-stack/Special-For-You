@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Special Journey for You ❤️</title>
+    <style>
+        /* CSS: Game styling and Animations */
+        body {
+            margin: 0;
+            padding: 0;
+            background: radial-gradient(circle, #ffdde1, #ee9ca7);
+            font-family: 'Poppins', sans-serif;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        #game-box {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 40px;
+            border-radius: 30px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+            text-align: center;
+            max-width: 450px;
+            width: 85%;
+            position: relative;
+            z-index: 10;
+            border: 5px solid #fff;
+        }
+
+        h1 { color: #d81b60; font-size: 28px; margin-bottom: 10px; text-shadow: 1px 1px 2px rgba(0,0,0,0.1); }
+        p { color: #444; font-size: 18px; line-height: 1.6; }
+
+        .btn {
+            background: #ff4081;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(255, 64, 129, 0.4);
+            transition: all 0.3s ease;
+            margin: 10px;
+        }
+
+        .btn:hover { transform: translateY(-3px) scale(1.05); background: #f50057; }
+
+        .hidden { display: none; }
+
+        img {
+            width: 100%;
+            max-height: 250px;
+            object-fit: cover;
+            border-radius: 20px;
+            margin: 15px 0;
+            border: 4px solid #ffc1e3;
+        }
+
+        /* Heart Animation */
+        .heart {
+            position: absolute;
+            color: rgba(233, 30, 99, 0.7);
+            font-size: 20px;
+            pointer-events: none;
+            z-index: 1;
+            animation: float Up 4s linear forwards;
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
+        }
+
+        #no-btn { position: absolute; transition: 0.2s; }
+    </style>
+</head>
+<body>
+
+    <audio id="bgMusic" loop>
+        <source src="music.mp3" type="audio/mpeg">
+    </audio>
+
+    <div id="game-box">
+        <div id="screen1">
+            <h1>Hello Pri❤️</h1>
+            <p>Maine aapke liye kuch special banaya hai. Kya aap mere saath is choti si journey par chalengi?</p>
+            <button class="btn" onclick="startExperience()">Haan, Bilkul! ✨</button>
+        </div>
+
+        <div id="screen2" class="hidden">
+            <h1>Humari Sabse Pyari Yaad 📸</h1>
+            <img src="photo.jpg" alt="Our Special Moment">
+            <p>Ye din mujhe hamesha yaad rahega. Aap isme kitni pyaari lag rahi ho na?</p>
+            <button class="btn" onclick="showScreen(3)">Next Level ➡️</button>
+        </div>
+
+        <div id="screen3" class="hidden">
+            <h1>Ek Sacha Sawal... 💍</h1>
+            <p>Kya aap hamesha mere saath rahogi? (Try clicking No if you can! 😜)</p>
+            <div style="height: 100px; position: relative;">
+                <button class="btn" onclick="celebrate()">YES! ❤️</button>
+                <button class="btn" id="no-btn" onmouseover="moveNoButton()">No 😜</button>
+            </div>
+        </div>
+
+        <div id="final" class="hidden">
+            <h1>I Love You Forever! ❤️</h1>
+            <p>Aap meri duniya ho. Thank you mere life mein aane ke liye! Ye toh bas ek chota sa tohfa tha.</p>
+            <p style="color: #ff4081; font-weight: bold;">Forever Yours!</p>
+            <button class="btn" onclick="location.reload()">Replay 🔄</button>
+        </div>
+    </div>
+
+    <script>
+        // JS: Logic and Effects
+        function startExperience() {
+            document.getElementById('bgMusic').play();
+            showScreen(2);
+        }
+
+        function showScreen(num) {
+            document.querySelectorAll('#game-box > div').forEach(div => div.classList.add('hidden'));
+            if(num === 2) document.getElementById('screen2').classList.remove('hidden');
+            if(num === 3) document.getElementById('screen3').classList.remove('hidden');
+        }
+
+        function moveNoButton() {
+            const btn = document.getElementById('no-btn');
+            // Randomly move within the viewport
+            const x = Math.random() * (window.innerWidth - 100);
+            const y = Math.random() * (window.innerHeight - 50);
+            btn.style.position = 'fixed';
+            btn.style.left = x + 'px';
+            btn.style.top = y + 'px';
+        }
+
+        function celebrate() {
+            document.querySelectorAll('#game-box > div').forEach(div => div.classList.add('hidden'));
+            document.getElementById('final').classList.remove('hidden');
+            
+            // Create Rain of Hearts
+            setInterval(createHeart, 200);
+        }
+
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('heart');
+            heart.innerHTML = '❤️';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.top = '100vh';
+            heart.style.fontSize = (Math.random() * 20 + 20) + 'px';
+            document.body.appendChild(heart);
+            
+            setTimeout(() => { heart.remove(); }, 4000);
+        }
+    </script>
+</body>
+</html>
